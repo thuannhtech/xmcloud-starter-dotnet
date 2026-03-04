@@ -1,7 +1,9 @@
 ﻿using Sitecore.AspNetCore.SDK.RenderingEngine.Configuration;
+using Sitecore.AspNetCore.SDK.RenderingEngine.Extensions;
 using Sitecore.AspNetCore.Starter.Models.LinkList;
 using Sitecore.AspNetCore.Starter.Models.Navigation;
 using Sitecore.AspNetCore.Starter.Models.Title;
+using Sitecore.AspNetCore.Starter.ViewComponents;
 
 namespace Sitecore.AspNetCore.Starter.Extensions;
 
@@ -19,7 +21,8 @@ public static class ServiceCollectionExtensions
                               .AddModelBoundView<LinkList>("LinkList")
                               .AddModelBoundView<Image>("Image")
                               .AddModelBoundView<PartialDesignDynamicPlaceholder>("PartialDesignDynamicPlaceholder")
-                              .AddModelBoundView<Navigation>("Navigation");
+                              .AddModelBoundView<Navigation>("Navigation")
+                              .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName);
 
         return renderingEngineOptions;
     }

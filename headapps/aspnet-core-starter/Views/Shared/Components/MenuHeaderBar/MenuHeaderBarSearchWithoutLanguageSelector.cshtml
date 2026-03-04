@@ -1,0 +1,14 @@
+@model Sitecore.AspNetCore.Starter.Models.MenuHeaderBar
+
+<div class="component menu-header-bar menu-header-bar--no-lang @Model.Styles @Model.GridParameters" id="@Model.Id">
+    <div class="component-content">
+        <h1>MENULANG</h1>
+        @if (Model.Image != null)
+        {
+            <div class="menu-header-bar__logo">
+                <sc-img asp-for="@Model.Image" />
+            </div>
+        }
+        @* No language selector in this variant *@
+    </div>
+</div>
