@@ -1,0 +1,22 @@
+@model Sitecore.AspNetCore.Starter.Models.MenuHeaderBar
+@{
+    var dict = ViewData["Dictionary"] as IDictionary<string, string> ?? new Dictionary<string, string>();
+    string T(string key) => dict.TryGetValue(key, out var val) ? val : key;
+}
+
+<div class="component menu-header-bar @Model.Styles @Model.GridParameters" id="@Model.Id">
+    <div class="header-bar">
+        <a class="header-bar_logo" id="home-page-link-logo">
+            <sc-img asp-for="@Model.Text" />
+        </a>
+        <div class="top-search-right-bar">
+            <button type="button" class="global-search_btn_v2">
+                <img src="https://www.brother.com.sg/-/media/ap2/Global/Menu/search.svg" alt="search icon" />
+                @T("HEADER_SEARCH")
+            </button>
+            <div class="mobile-hamburger js-hamburger">
+                <img src="https://www.brother.com.sg/-/media/ap2/Global/Menu/hamburger.svg" alt="hamburger icon" />
+            </div>
+        </div>
+    </div>
+</div>

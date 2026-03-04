@@ -1,0 +1,12 @@
+query DictionarySearch($siteName: String!, $language: String!) {
+    site {
+        siteInfo(site: $siteName) {
+            dictionary(language: $language, first: 20) {
+                results {
+                    key
+                    value
+                }
+            }
+        }
+    }
+}
