@@ -3,6 +3,7 @@ using Sitecore.AspNetCore.SDK.GraphQL.Extensions;
 using Sitecore.AspNetCore.SDK.Pages.Configuration;
 using Sitecore.AspNetCore.SDK.Pages.Extensions;
 using Sitecore.AspNetCore.Starter.Extensions;
+using Sitecore.AspNetCore.Starter.Services;
 using System.Globalization;
 
 
@@ -15,6 +16,12 @@ ArgumentNullException.ThrowIfNull(sitecoreSettings);
 builder.Services.AddRouting()
                 .AddLocalization()
                 .AddMvc();
+
+// Sitecore Core Services
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton(sitecoreSettings);
+builder.Services.AddSingleton<IGraphQLService, GraphQLService>();
+builder.Services.AddSingleton<IDictionaryService, SitecoreDictionaryService>();
 
 builder.Services.AddGraphQLClient(configuration =>
                 {
@@ -32,10 +39,13 @@ if (sitecoreSettings.EnableLocalContainer)
 }
 else
 {
-    // Register the GraphQL version of the Sitecore Layout Service Client for use against experience edge
+    // Register the GraphQL version of the Sitecore Layout Service Client using custom CM endpoint
     builder.Services.AddSitecoreLayoutService()
                     .AddSitecorePagesHandler()
-                    .AddGraphQLWithContextHandler("default", sitecoreSettings.EdgeContextId!, siteName: sitecoreSettings.DefaultSiteName!)
+                    .AddGraphQLHandler("default", 
+                                       sitecoreSettings.DefaultSiteName!, 
+                                       sitecoreSettings.EdgeContextId!, 
+                                       new Uri($"{sitecoreSettings.EdgeEndpoint}?sc_apikey={sitecoreSettings.EdgeContextId}"))
                     .AsDefaultHandler();
 }
 

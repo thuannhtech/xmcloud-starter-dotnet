@@ -15,6 +15,8 @@ public class SitecoreSettings
     public string? EditingPath { get; set; }
 
     public bool EnableLocalContainer { get; set; }
+    public string? EdgeEndpoint { get; set; }
+    public string? EdgeDeliveryAPIToken { get; set; }
 
     public Uri? LocalContainerLayoutUri { get; set; }
 }
