@@ -3,7 +3,6 @@ using Sitecore.AspNetCore.SDK.GraphQL.Extensions;
 using Sitecore.AspNetCore.SDK.Pages.Configuration;
 using Sitecore.AspNetCore.SDK.Pages.Extensions;
 using Sitecore.AspNetCore.Starter.Extensions;
-using Sitecore.AspNetCore.Starter.Services;
 using System.Globalization;
 
 
@@ -17,16 +16,10 @@ builder.Services.AddRouting()
                 .AddLocalization()
                 .AddMvc();
 
-// Sitecore Core Services
-builder.Services.AddMemoryCache();
-builder.Services.AddSingleton(sitecoreSettings);
-builder.Services.AddSingleton<IGraphQLService, GraphQLService>();
-builder.Services.AddSingleton<IDictionaryService, SitecoreDictionaryService>();
-
 builder.Services.AddGraphQLClient(configuration =>
-                {
-                    configuration.ContextId = sitecoreSettings.EdgeContextId;
-                })
+{
+    configuration.ContextId = sitecoreSettings.EdgeContextId;
+})
                 .AddMultisite();
 
 if (sitecoreSettings.EnableLocalContainer)
@@ -39,21 +32,18 @@ if (sitecoreSettings.EnableLocalContainer)
 }
 else
 {
-    // Register the GraphQL version of the Sitecore Layout Service Client using custom CM endpoint
+    // Register the GraphQL version of the Sitecore Layout Service Client for use against experience edge
     builder.Services.AddSitecoreLayoutService()
                     .AddSitecorePagesHandler()
-                    .AddGraphQLHandler("default", 
-                                       sitecoreSettings.DefaultSiteName!, 
-                                       sitecoreSettings.EdgeContextId!, 
-                                       new Uri($"{sitecoreSettings.EdgeEndpoint}?sc_apikey={sitecoreSettings.EdgeContextId}"))
+                    .AddGraphQLWithContextHandler("default", sitecoreSettings.EdgeContextId!, siteName: sitecoreSettings.DefaultSiteName!)
                     .AsDefaultHandler();
 }
 
 builder.Services.AddSitecoreRenderingEngine(options =>
-                    {
-                        options.AddStarterKitViews()
-                               .AddDefaultPartialView("_ComponentNotFound");
-                    })
+{
+    options.AddStarterKitViews()
+           .AddDefaultPartialView("_ComponentNotFound");
+})
                 .ForwardHeaders()
                 .WithSitecorePages(sitecoreSettings.EdgeContextId ?? string.Empty, options => { options.EditingSecret = sitecoreSettings.EditingSecret; });
 
@@ -80,14 +70,14 @@ app.UseStaticFiles();
 
 const string defaultLanguage = "en";
 app.UseRequestLocalization(options =>
-    {
-        // If you add languages in Sitecore which this site / Rendering Host should support, add them here.
-        List<CultureInfo> supportedCultures = [new CultureInfo(defaultLanguage)];
-        options.DefaultRequestCulture = new RequestCulture(defaultLanguage, defaultLanguage);
-        options.SupportedCultures = supportedCultures;
-        options.SupportedUICultures = supportedCultures;
-        options.UseSitecoreRequestLocalization();
-    });
+{
+    // If you add languages in Sitecore which this site / Rendering Host should support, add them here.
+    List<CultureInfo> supportedCultures = [new CultureInfo(defaultLanguage)];
+    options.DefaultRequestCulture = new RequestCulture(defaultLanguage, defaultLanguage);
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.UseSitecoreRequestLocalization();
+});
 
 app.MapControllerRoute(
         "error",
