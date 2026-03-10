@@ -22,4 +22,13 @@ public class BannerSlider : BaseModel
 
     [SitecoreComponentField]
     public HyperLinkField? SlideLink { get; set; }
+
+    // If using a Multilist field named "ImageGallery" for multiple images
+    [SitecoreComponentField]
+    public List<ImageField>? ImageGallery { get; set; }
+
+    // If using child items for slides (most common in XM Cloud)
+    // Bind the 'data.item' to get children via GraphQL or simple binding
+    // In SDK, we can access the children via the component properties if available.
+    public List<BannerSlider>? ChildSlides { get; set; }
 }

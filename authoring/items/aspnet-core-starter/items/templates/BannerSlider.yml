@@ -87,6 +87,21 @@ SharedFields:
 - ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
   Hint: Type
   Value: General Link
-- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+- ID: "b1000001-0006-0001-0001-000000000001"
   Hint: __Display name
   Value: Slide Link
+
+---
+# Field: ImageGallery (Treelist)
+# Maps to: [SitecoreComponentField] public List<ImageField>? ImageGallery
+ID: "b1000001-0007-0001-0001-000000000001"
+Parent: "b1000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider/Content/ImageGallery
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Treelist
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Image Gallery

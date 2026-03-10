@@ -6,9 +6,9 @@
 /* -------------------------------------------------------
    1. BANNER SLIDER
    -------------------------------------------------------- */
-.banner-slider-item {
-    display: block;
+.banner-slider {
     width: 100%;
+    overflow: hidden;
 }
 
 .banner-slide {
@@ -23,6 +23,18 @@
     overflow: hidden;
 }
 
+.banner-slide__image-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.banner-slide__image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* Dark gradient overlay for text readability */
 .banner-slide__overlay {
     position: absolute;
@@ -33,12 +45,13 @@
         rgba(0, 0, 0, 0.15) 60%,
         transparent 100%
     );
+    z-index: 1;
     pointer-events: none;
 }
 
 .banner-slide__content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 600px;
     padding: 3rem 4rem;
     color: #fff;
@@ -67,8 +80,11 @@
     opacity: 0.92;
 }
 
-.banner-slide__cta,
-a.banner-slide__cta {
+.banner-slide__cta {
+    display: inline-block;
+}
+
+.banner-slide__cta a {
     display: inline-block;
     padding: 0.85rem 2.2rem;
     background: #e63946;
@@ -82,22 +98,57 @@ a.banner-slide__cta {
     box-shadow: 0 4px 14px rgba(230, 57, 70, 0.45);
 }
 
-.banner-slide__cta:hover {
+.banner-slide__cta a:hover {
     background: #c1121f;
     transform: translateY(-2px);
 }
 
-/* Editing mode: show image in-place */
-.banner-slide__image-edit {
-    position: absolute;
-    inset: 0;
-    opacity: 0.35;
+/* Swiper overrides */
+.banner-slider .swiper-button-next,
+.banner-slider .swiper-button-prev {
+    color: #fff;
 }
 
-.banner-slide__image-edit img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.banner-slider .swiper-pagination-bullet-active {
+    background: #e63946;
+}
+
+/* Editing mode: show slides in a grid or stack */
+.banner-slider__editing-view {
+    padding: 20px;
+    background: #f0f0f0;
+    border: 2px dashed #999;
+}
+
+.banner-editing-notice {
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.banner-slide-edit-item {
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    position: relative;
+    min-height: 200px;
+}
+
+.banner-slide-edit-item .banner-slide__content {
+    color: #333;
+    padding: 1rem;
+}
+
+.banner-slide-edit-item .banner-slide-title,
+.banner-slide-edit-item .banner-slide-subtitle {
+    color: #333;
+}
+
+.banner-slide-edit-item .banner-slide__image-edit {
+    max-width: 200px;
+    margin-bottom: 10px;
 }
 
 /* -------------------------------------------------------

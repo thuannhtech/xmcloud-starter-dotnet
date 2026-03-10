@@ -3,10 +3,9 @@
 @{
     bool isEditing = Model?.IsEditing ?? false;
     var slides = Model?.ChildSlides ?? (Model?.ImageGallery?.Select(i => new Sitecore.AspNetCore.Starter.Models.BannerSlider { SlideImage = i }).ToList()) ?? new List<Sitecore.AspNetCore.Starter.Models.BannerSlider>();
-
+    
     // Add the current datasource item as a slide if it has fields on it
-    if (Model?.SlideImage != null || Model?.SlideTitle != null)
-    {
+    if (Model?.SlideImage != null || Model?.SlideTitle != null) {
         slides.Insert(0, Model);
     }
 }
@@ -19,13 +18,12 @@
             @foreach (var slide in slides)
             {
                 <div class="banner-slide-edit-item">
-                    @if (slide.SlideImage != null)
-                    {
+                     @if (slide.SlideImage != null) {
                         <div class="banner-slide__image-edit">
                             <sc-img asp-for="@slide.SlideImage" />
                         </div>
-                    }
-                    <div class="banner-slide__content">
+                     }
+                     <div class="banner-slide__content">
                         <h1 class="banner-slide__title"><sc-text asp-for="@slide.SlideTitle" /></h1>
                         <p class="banner-slide__subtitle"><sc-text asp-for="@slide.SlideSubtitle" /></p>
                         <div class="banner-slide__cta"><sc-link asp-for="@slide.SlideLink" /></div>
