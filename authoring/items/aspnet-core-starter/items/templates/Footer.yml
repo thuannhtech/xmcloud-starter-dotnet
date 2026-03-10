@@ -1,0 +1,131 @@
+---
+# Template: Footer
+# Path: /sitecore/templates/Feature/aspnet-core-starter/Footer
+ID: "b3000001-0001-0001-0001-000000000001"
+Parent: "a1b2c3d4-0001-0001-0001-000000000001"
+Template: "AB86861A-6030-46C5-B394-E8F99E8B87DB"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Footer
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25BED78C-4957-4165-998A-CA1B52F67497"
+      Hint: __Created
+      Value: 20240101T000000Z
+
+---
+# Template Section: Branding
+ID: "b3000001-0002-0001-0001-000000000001"
+Parent: "b3000001-0001-0001-0001-000000000001"
+Template: "E269FBB5-3750-427A-9149-7AA950B49301"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Branding
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Branding
+
+---
+# Field: FooterLogo (Image)
+# Maps to: [SitecoreComponentField] public ImageField? FooterLogo
+ID: "b3000001-0003-0001-0001-000000000001"
+Parent: "b3000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Branding/FooterLogo
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Image
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Footer Logo
+
+---
+# Field: FooterTagline (Single-Line Text)
+# Maps to: [SitecoreComponentField] public TextField? FooterTagline
+ID: "b3000001-0004-0001-0001-000000000001"
+Parent: "b3000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Branding/FooterTagline
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Single-Line Text
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Footer Tagline
+
+---
+# Field: CopyrightText (Single-Line Text)
+# Maps to: [SitecoreComponentField] public TextField? CopyrightText
+ID: "b3000001-0005-0001-0001-000000000001"
+Parent: "b3000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Branding/CopyrightText
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Single-Line Text
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Copyright Text
+
+---
+# Template Section: Social
+ID: "b3000001-0006-0001-0001-000000000001"
+Parent: "b3000001-0001-0001-0001-000000000001"
+Template: "E269FBB5-3750-427A-9149-7AA950B49301"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Social
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Social
+
+---
+# Field: SocialFacebook (General Link)
+# Maps to: [SitecoreComponentField] public HyperLinkField? SocialFacebook
+ID: "b3000001-0007-0001-0001-000000000001"
+Parent: "b3000001-0006-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Social/SocialFacebook
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: General Link
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Social Facebook
+
+---
+# Field: SocialTwitter (General Link)
+# Maps to: [SitecoreComponentField] public HyperLinkField? SocialTwitter
+ID: "b3000001-0008-0001-0001-000000000001"
+Parent: "b3000001-0006-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Social/SocialTwitter
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: General Link
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Social Twitter
+
+---
+# Field: SocialInstagram (General Link)
+# Maps to: [SitecoreComponentField] public HyperLinkField? SocialInstagram
+ID: "b3000001-0009-0001-0001-000000000001"
+Parent: "b3000001-0006-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/Footer/Social/SocialInstagram
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: General Link
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Social Instagram

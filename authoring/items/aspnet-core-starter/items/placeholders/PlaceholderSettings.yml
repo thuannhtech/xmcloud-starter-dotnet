@@ -1,0 +1,75 @@
+---
+# Placeholder Settings Folder: /sitecore/layout/Placeholder Settings/Feature/aspnet-core-starter
+ID: "d1000000-0001-0001-0001-000000000001"
+Parent: "1CE3B36C-9B0C-4EB5-A996-BFCB4EAA8CAE"
+Template: "A87A00B1-E6DB-45AB-8B54-636FEC3B5523"
+Path: /sitecore/layout/Placeholder Settings/Feature/aspnet-core-starter
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: aspnet-core-starter
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25BED78C-4957-4165-998A-CA1B52F67497"
+      Hint: __Created
+      Value: 20240101T000000Z
+
+---
+# Placeholder: promotion-items
+# Used by PromotionSection.cshtml → <sc-placeholder name="promotion-items">
+# Allowed renderings: Promo component
+ID: "d1000001-0001-0001-0001-000000000001"
+Parent: "d1000000-0001-0001-0001-000000000001"
+Template: "5C547D4E-7111-4995-95B0-6B561751BF2E"
+Path: /sitecore/layout/Placeholder Settings/Feature/aspnet-core-starter/promotion-items
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Promotion Items
+# Placeholder Key — must match the name attribute in <sc-placeholder name="promotion-items">
+- ID: "5B2C4F7E-EFA1-4DBA-A857-AB256F30B07F"
+  Hint: Placeholder Key
+  Value: promotion-items
+# Allowed Controls — restrict which components editors can add here
+# Reference the Promo rendering item by its ID
+- ID: "A2E0DC20-E5F1-4A5E-B7BD-AB396E7A6F56"
+  Hint: Allowed Controls
+  Value: "{00000000-Promo-rendering-id-from-sitecore}"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25BED78C-4957-4165-998A-CA1B52F67497"
+      Hint: __Created
+      Value: 20240101T000000Z
+
+---
+# Placeholder: footer-links
+# Used by Footer.cshtml → <sc-placeholder name="footer-links">
+# Allowed renderings: LinkList component
+ID: "d1000002-0001-0001-0001-000000000001"
+Parent: "d1000000-0001-0001-0001-000000000001"
+Template: "5C547D4E-7111-4995-95B0-6B561751BF2E"
+Path: /sitecore/layout/Placeholder Settings/Feature/aspnet-core-starter/footer-links
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Footer Links
+- ID: "5B2C4F7E-EFA1-4DBA-A857-AB256F30B07F"
+  Hint: Placeholder Key
+  Value: footer-links
+- ID: "A2E0DC20-E5F1-4A5E-B7BD-AB396E7A6F56"
+  Hint: Allowed Controls
+  Value: "{00000000-LinkList-rendering-id-from-sitecore}"
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25BED78C-4957-4165-998A-CA1B52F67497"
+      Hint: __Created
+      Value: 20240101T000000Z

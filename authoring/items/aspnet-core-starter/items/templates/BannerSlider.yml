@@ -1,0 +1,92 @@
+---
+# Template: BannerSlider
+# Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider
+# This template defines the content fields for the BannerSlider component.
+# Must be created in Sitecore before the component can be used on a page.
+ID: "b1000001-0001-0001-0001-000000000001"
+Parent: "a1b2c3d4-0001-0001-0001-000000000001"
+Template: "AB86861A-6030-46C5-B394-E8F99E8B87DB"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Banner Slider
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25BED78C-4957-4165-998A-CA1B52F67497"
+      Hint: __Created
+      Value: 20240101T000000Z
+
+---
+# Template Section: Content
+ID: "b1000001-0002-0001-0001-000000000001"
+Parent: "b1000001-0001-0001-0001-000000000001"
+Template: "E269FBB5-3750-427A-9149-7AA950B49301"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider/Content
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Content
+
+---
+# Field: SlideImage (Image)
+# Maps to: [SitecoreComponentField] public ImageField? SlideImage
+ID: "b1000001-0003-0001-0001-000000000001"
+Parent: "b1000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider/Content/SlideImage
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Image
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Slide Image
+
+---
+# Field: SlideTitle (Single-Line Text)
+# Maps to: [SitecoreComponentField] public TextField? SlideTitle
+ID: "b1000001-0004-0001-0001-000000000001"
+Parent: "b1000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider/Content/SlideTitle
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Single-Line Text
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Slide Title
+
+---
+# Field: SlideSubtitle (Single-Line Text)
+# Maps to: [SitecoreComponentField] public TextField? SlideSubtitle
+ID: "b1000001-0005-0001-0001-000000000001"
+Parent: "b1000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider/Content/SlideSubtitle
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: Single-Line Text
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Slide Subtitle
+
+---
+# Field: SlideLink (General Link)
+# Maps to: [SitecoreComponentField] public HyperLinkField? SlideLink
+ID: "b1000001-0006-0001-0001-000000000001"
+Parent: "b1000001-0002-0001-0001-000000000001"
+Template: "455A3E98-A627-4B40-8035-E683A0331AC7"
+Path: /sitecore/templates/Feature/aspnet-core-starter/BannerSlider/Content/SlideLink
+SharedFields:
+- ID: "AB162CC0-DC80-4ABF-8871-998EE5D7BA32"
+  Hint: Type
+  Value: General Link
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: Slide Link

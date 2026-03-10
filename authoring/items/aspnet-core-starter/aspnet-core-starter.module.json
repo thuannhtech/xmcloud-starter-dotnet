@@ -7,6 +7,21 @@
                 "name": "DefaultRenderingHost",
                 "path": "/sitecore/system/Settings/Services/Rendering Hosts/Default",
                 "scope": "singleItem"
+            },
+            {
+                "name": "templates",
+                "path": "/sitecore/templates/Feature/aspnet-core-starter",
+                "scope": "itemAndDescendants"
+            },
+            {
+                "name": "renderings",
+                "path": "/sitecore/layout/Renderings/Feature/aspnet-core-starter",
+                "scope": "itemAndDescendants"
+            },
+            {
+                "name": "placeholders",
+                "path": "/sitecore/layout/Placeholder Settings/Feature/aspnet-core-starter",
+                "scope": "itemAndDescendants"
             }
         ]
     }

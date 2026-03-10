@@ -1,0 +1,61 @@
+@model Sitecore.AspNetCore.Starter.Models.Footer
+
+<div class="component site-footer @Model?.Styles @Model?.GridParameters" id="@Model?.Id">
+    <div class="site-footer__inner">
+
+        <div class="site-footer__brand">
+            @if (Model?.FooterLogo != null)
+            {
+                <div class="site-footer__logo">
+                    <sc-img asp-for="@Model.FooterLogo" />
+                </div>
+            }
+            @if (Model?.FooterTagline != null)
+            {
+                <p class="site-footer__tagline">
+                    <sc-text asp-for="@Model.FooterTagline" />
+                </p>
+            }
+        </div>
+
+        <div class="site-footer__links">
+            @*
+                Footer link columns are placed into the "footer-links" placeholder
+                by content editors using the existing LinkList component.
+                This placeholder must be registered in Sitecore layout/page design.
+            *@
+            <sc-placeholder name="footer-links"></sc-placeholder>
+        </div>
+
+        <div class="site-footer__social">
+            @if (Model?.SocialFacebook != null)
+            {
+                <sc-link class="site-footer__social-link" asp-for="@Model.SocialFacebook">
+                    <i class="fa fa-facebook"></i>
+                </sc-link>
+            }
+            @if (Model?.SocialTwitter != null)
+            {
+                <sc-link class="site-footer__social-link" asp-for="@Model.SocialTwitter">
+                    <i class="fa fa-twitter"></i>
+                </sc-link>
+            }
+            @if (Model?.SocialInstagram != null)
+            {
+                <sc-link class="site-footer__social-link" asp-for="@Model.SocialInstagram">
+                    <i class="fa fa-instagram"></i>
+                </sc-link>
+            }
+        </div>
+
+    </div>
+
+    <div class="site-footer__bottom">
+        @if (Model?.CopyrightText != null)
+        {
+            <p class="site-footer__copyright">
+                <sc-text asp-for="@Model.CopyrightText" />
+            </p>
+        }
+    </div>
+</div>

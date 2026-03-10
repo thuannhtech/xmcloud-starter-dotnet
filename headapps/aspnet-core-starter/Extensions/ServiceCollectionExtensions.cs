@@ -22,6 +22,12 @@ public static class ServiceCollectionExtensions
                               .AddModelBoundView<Image>("Image")
                               .AddModelBoundView<PartialDesignDynamicPlaceholder>("PartialDesignDynamicPlaceholder")
                               .AddModelBoundView<Navigation>("Navigation")
+                              // ── Home page components ──────────────────────────────────
+                              .AddModelBoundView<BannerSlider>("BannerSlider")
+                              .AddModelBoundView<PromotionSection>("PromotionSection")
+                              .AddModelBoundView<Footer>("Footer")
+                              .AddModelBoundView<QuangBanner>("QuangBanner")
+                              // ─────────────────────────────────────────────────────────
                               .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName);
 
         return renderingEngineOptions;

@@ -1,0 +1,27 @@
+@model Sitecore.AspNetCore.Starter.Models.PromotionSection
+
+<section class="component promotion-section @Model?.Styles @Model?.GridParameters" id="@Model?.Id">
+    <div class="promotion-section__header">
+        @if (Model?.SectionTitle != null)
+        {
+            <h2 class="promotion-section__title">
+                <sc-text asp-for="@Model.SectionTitle" />
+            </h2>
+        }
+        @if (Model?.SectionSubtitle != null)
+        {
+            <p class="promotion-section__subtitle">
+                <sc-text asp-for="@Model.SectionSubtitle" />
+            </p>
+        }
+    </div>
+    <div class="promotion-section__grid">
+        @*
+            Promo child components are placed into the "promotion-items"
+            placeholder by content editors in Sitecore CMS Pages.
+            The placeholder name must match what is configured in
+            your Sitecore layout/page design.
+        *@
+        <sc-placeholder name="promotion-items"></sc-placeholder>
+    </div>
+</section>

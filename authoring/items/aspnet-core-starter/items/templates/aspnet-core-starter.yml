@@ -1,0 +1,18 @@
+---
+# Folder: /sitecore/templates/Feature/aspnet-core-starter
+ID: "a1b2c3d4-0001-0001-0001-000000000001"
+Parent: "3C1715FE-6A13-4FCF-845D-DE308BA901B7"
+Template: "A87A00B1-E6DB-45AB-8B54-636FEC3B5523"
+Path: /sitecore/templates/Feature/aspnet-core-starter
+SharedFields:
+- ID: "B5E02AD9-D56F-4C41-A065-A133DB87BDEB"
+  Hint: __Display name
+  Value: aspnet-core-starter
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25BED78C-4957-4165-998A-CA1B52F67497"
+      Hint: __Created
+      Value: 20240101T000000Z

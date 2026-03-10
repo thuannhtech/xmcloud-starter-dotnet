@@ -1,0 +1,38 @@
+@model Sitecore.AspNetCore.Starter.Models.BannerSlider
+
+@{
+    bool isEditing = Model?.IsEditing ?? false;
+    string bgStyle = (!isEditing && !string.IsNullOrWhiteSpace(Model?.SlideImage?.Value.Src))
+        ? $"background-image: url('{Model.SlideImage.Value.Src}')"
+        : string.Empty;
+}
+
+<div class="component banner-slider-item @Model?.Styles @Model?.GridParameters" id="@Model?.Id">
+    <div class="banner-slide" style="@bgStyle">
+        @if (isEditing)
+        {
+            <div class="banner-slide__image-edit">
+                <sc-img asp-for="@Model.SlideImage" />
+            </div>
+        }
+        <div class="banner-slide__overlay"></div>
+        <div class="banner-slide__content">
+            @if (Model?.SlideTitle != null)
+            {
+                <h1 class="banner-slide__title">
+                    <sc-text asp-for="@Model.SlideTitle" />
+                </h1>
+            }
+            @if (Model?.SlideSubtitle != null)
+            {
+                <p class="banner-slide__subtitle">
+                    <sc-text asp-for="@Model.SlideSubtitle" />
+                </p>
+            }
+            @if (Model?.SlideLink != null)
+            {
+                <sc-link class="banner-slide__cta" asp-for="@Model.SlideLink" />
+            }
+        </div>
+    </div>
+</div>

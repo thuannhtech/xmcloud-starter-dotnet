@@ -1,0 +1,46 @@
+@model Sitecore.AspNetCore.Starter.Models.QuangBanner
+
+<section class="quang-banner @Model?.Styles @Model?.GridParameters" id="@Model?.Id" style="padding: 4rem 0; background: #f8f9fa;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                @if (Model?.Title != null)
+                {
+                    <h1 class="display-4 fw-bold mb-3">
+                        <sc-text asp-for="@Model.Title" />
+                    </h1>
+                }
+                
+                @if (Model?.Description != null)
+                {
+                    <div class="lead mb-4">
+                        <sc-rich-text asp-for="@Model.Description" />
+                    </div>
+                }
+
+                @if (Model?.CallToAction != null)
+                {
+                    <sc-link class="btn btn-primary btn-lg px-4" asp-for="@Model.CallToAction" />
+                }
+            </div>
+            
+            <div class="col-md-6 mt-4 mt-md-0">
+                @if (Model?.Image != null)
+                {
+                    <div class="banner-image-wrapper shadow-lg rounded-3 overflow-hidden">
+                        <sc-img asp-for="@Model.Image" class="img-fluid w-100" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .quang-banner .banner-image-wrapper {
+        transition: transform 0.3s ease;
+    }
+    .quang-banner .banner-image-wrapper:hover {
+        transform: translateY(-5px);
+    }
+</style>
