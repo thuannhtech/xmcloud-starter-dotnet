@@ -1,0 +1,16 @@
+@model Sitecore.AspNetCore.Starter.Models.MenuHeaderBar
+
+<div class="header-bar component menu-header-bar @Model.Styles @Model.GridParameters" id="@Model.Id" style="width: 100%">
+    <a class="header-bar_logo" id="home-page-link-logo">
+        <sc-img asp-for="@Model.Image" />
+    </a>
+    <div class="top-search-right-bar">
+        <button type="button" class="global-search_btn_v2">
+            <img src="https://www.brother.com.sg/-/media/ap2/Global/Menu/search.svg" alt="search icon" />
+            Search
+        </button>
+        <div class="mobile-hamburger js-hamburger">
+            <img src="https://www.brother.com.sg/-/media/ap2/Global/Menu/hamburger.svg" alt="hamburger icon" />
+        </div>
+    </div>
+</div>

@@ -5,8 +5,6 @@ namespace Sitecore.AspNetCore.Starter.Models
 {
     public class MenuHeaderBar : BaseModel
     {
-        public const string VARIANT_DEFAULT = "Default";
-
         [SitecoreComponentField(Name = "Image")]
         public ImageField? Image { get; set; }
 
