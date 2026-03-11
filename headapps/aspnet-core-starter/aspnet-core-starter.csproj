@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="GraphQL.Client" />
     <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" />
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Sitecore.AspNetCore.SDK.ExperienceEditor" />
     <PackageReference Include="Sitecore.AspNetCore.SDK.LayoutService.Client" />
     <PackageReference Include="Sitecore.AspNetCore.SDK.Pages" />

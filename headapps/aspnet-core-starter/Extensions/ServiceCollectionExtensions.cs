@@ -30,7 +30,8 @@ public static class ServiceCollectionExtensions
                               //.AddModelBoundView<Footer>("Footer")
                               //.AddModelBoundView<QuangBanner>("QuangBanner")
                               // ─────────────────────────────────────────────────────────
-                              .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName);
+                              .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
+                              .AddViewComponent(BannerSliderViewComponent.ViewComponentName);
 
         return renderingEngineOptions;
     }
