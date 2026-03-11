@@ -1,0 +1,21 @@
+﻿@model Sitecore.AspNetCore.Starter.Models.Blog.BlogDetailModel
+
+<article class="blog-card">
+
+    <a class="blog-image">
+        <sc-img asp-for="@Model.Thumbnail"></sc-img>
+    </a>
+
+    <div class="blog-content">
+
+        <h3 class="blog-title">
+            <sc-text asp-for="@Model.Title"></sc-text>
+        </h3>
+
+        <a href="@Model.Url?.Value" class="blog-readmore">
+            Read more →
+        </a>
+
+    </div>
+
+</article>

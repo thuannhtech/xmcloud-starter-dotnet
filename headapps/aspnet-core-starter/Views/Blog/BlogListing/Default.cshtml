@@ -1,0 +1,182 @@
+﻿@using Sitecore.AspNetCore.SDK.LayoutService.Client.Response.Model.Fields
+@using Sitecore.AspNetCore.SDK.RenderingEngine.Extensions
+@using Sitecore.AspNetCore.Starter.Models.Blog
+@model Sitecore.AspNetCore.Starter.Models.Blog.BlogListingModel
+
+<style>
+
+    .blog-listing {
+        padding: 60px 0;
+        background: #f8f9fb;
+    }
+
+    .blog-listing-title {
+        text-align: center;
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 50px;
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+        gap: 30px;
+    }
+
+    /* CARD */
+
+    .blog-card {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        transition: all .35s ease;
+    }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+    /* IMAGE */
+
+    .blog-thumbnail {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+    }
+
+        .blog-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+    .blog-card:hover .blog-thumbnail img {
+        transform: scale(1.08);
+    }
+
+    /* overlay */
+
+    .blog-thumbnail::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.6), transparent);
+    }
+
+    /* TITLE OVER IMAGE */
+
+    .blog-title-overlay {
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        right: 20px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        z-index: 2;
+    }
+
+    /* CONTENT */
+
+    .blog-content {
+        padding: 20px 22px 25px;
+    }
+
+    .blog-excerpt {
+        color: #666;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 18px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* BUTTON */
+
+    .btn-readmore {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #007bff;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+        .btn-readmore:hover {
+            color: #0056b3;
+        }
+
+        .btn-readmore::after {
+            content: "→";
+            transition: transform .2s;
+        }
+
+        .btn-readmore:hover::after {
+            transform: translateX(4px);
+        }
+
+</style>
+
+
+<section class="blog-listing">
+
+    <div class="container">
+
+        <h1 class="blog-listing-title">
+            <sc-text asp-for="@Model.Title"></sc-text>
+        </h1>
+
+        <div class="blog-grid">
+
+            @if (Model.Blogs != null)
+            {
+                foreach (var blogItem in Model.Blogs)
+                {
+                    var titleField = blogItem.ReadField<TextField>("Title");
+                    var thumbField = blogItem.ReadField<ImageField>("Thumbnail");
+                    var excerptField = blogItem.ReadField<RichTextField>("ContentBody");
+
+                    if (blogItem == null) continue;
+
+                    <div class="blog-card">
+
+                        <div class="blog-thumbnail">
+
+                            @if (thumbField?.Value?.Src != null)
+                            {
+                                <img src="@thumbField.Value.Src" class="card-img" />
+                            }
+
+                            <div class="blog-title-overlay">
+                                <sc-text asp-for="@titleField" />
+                            </div>
+
+                        </div>
+
+                        <div class="blog-content">
+
+                            <div class="blog-excerpt">
+                                @Html.Raw(excerptField?.Value)
+                            </div>
+
+                            <a href="@blogItem.Url" class="btn-readmore">
+                                Read More
+                            </a>
+
+                        </div>
+
+                    </div>
+                }
+            }
+
+        </div>
+
+    </div>
+
+</section>
