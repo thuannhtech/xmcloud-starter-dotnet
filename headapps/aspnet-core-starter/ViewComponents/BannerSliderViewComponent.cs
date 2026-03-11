@@ -10,6 +10,7 @@ namespace Sitecore.AspNetCore.Starter.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(CancellationToken cancellationToken)
         {
+            
             var model = await binder.Bind<BannerSliderFolder>(ViewContext);
             return View(model);
         }

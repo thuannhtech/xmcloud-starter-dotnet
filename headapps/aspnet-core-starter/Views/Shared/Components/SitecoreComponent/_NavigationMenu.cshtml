@@ -1,18 +1,41 @@
-﻿@using Sitecore.AspNetCore.Starter.Models.Navigation
+@using Sitecore.AspNetCore.Starter.Models.Navigation
 @model Sitecore.AspNetCore.Starter.Models.Navigation.Navigation
 
-<ul class="clearfix">
-    @foreach (NavigationItem navItem in @Model.NavigationItems ?? [])
-    {
-        string classNames = $"{string.Join(" ", navItem.Styles ?? [])} rel-level{Model.MenuLevel}";
+@{
+    var items = Model.NavigationItems ?? [];
+    // MenuLevel usually starts at 1, but if it comes in as 0 or null, default to 1
+    int level = (Model.MenuLevel ?? 0) == 0 ? 1 : Model.MenuLevel.Value; 
+    var listClass = $"nav-menu-list level-{level}";
+}
 
-        <li class="@classNames">
-            <div class="navigation-title @(navItem.Children?.Count > 0 ? "child" : "")">
-                <a href="@navItem.Href">
-                    <sc-text asp-for="@navItem.NavigationTitle"></sc-text>
-                </a>
-            </div>
-            @await Html.PartialAsync("./_NavigationMenu.cshtml", new Navigation(navItem.Children, Model.MenuLevel + 1))
-        </li>
-    }
-</ul>
+@if (items.Count > 0)
+{
+    <ul class="@listClass clearfix">
+        @foreach (NavigationItem navItem in items)
+        {
+            bool hasChildren = navItem.Children != null && navItem.Children.Count > 0;
+            string classNames = $"{(navItem.Styles != null ? string.Join(" ", navItem.Styles) : "")} nav-item rel-level{level}{(hasChildren ? " has-children" : "")}".Trim();
+
+            <li class="@classNames">
+                <div class="navigation-title @(hasChildren ? "parent" : "leaf")" style="padding-bottom: 20px;">
+                    <a href="@navItem.Href">
+                        <sc-text asp-for="@navItem.NavigationTitle"></sc-text>
+                    </a>
+                    @if (hasChildren)
+                    {
+                        <!-- Chevron icon indicating children exist -->
+                        <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    }
+                </div>
+                
+                @if (hasChildren)
+                {
+                    <!-- Recursively render children list -->
+                    @await Html.PartialAsync("./_NavigationMenu.cshtml", new Navigation(navItem.Children, level + 1))
+                }
+            </li>
+        }
+    </ul>
+}

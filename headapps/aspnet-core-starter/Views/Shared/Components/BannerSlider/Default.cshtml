@@ -1,6 +1,307 @@
 @model Sitecore.AspNetCore.Starter.Models.BannerSliderFolder
 
-@foreach (var item in Model.BannerSliders)
+@{
+    bool isEditing = Model?.IsEditing ?? false;
+    var slides = Model?.BannerSliders?.ToList();
+    string sliderId = $"banner-swiper-{Model?.Id ?? "main"}";
+    string prevId   = $"{sliderId}-prev";
+    string nextId   = $"{sliderId}-next";
+    string paginId  = $"{sliderId}-pagin";
+    string ppId     = $"{sliderId}-pp";
+}
+
+@if (slides != null && slides.Any())
 {
-    <div style="width: 100%">@item.Url</div>
+    <!-- Swiper CSS — loaded first -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* ── Wrapper ─────────────────────────────────────────────────── */
+        .banner-slider-section {
+            width: 100%;
+            max-width: 1440px; /* Constrain horizontal width on ultra-wide screens */
+            margin: 0 auto;    /* Center the slider layout */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .banner-swiper {
+            width: 100%;
+            position: relative;
+        }
+
+        /* ── Slide image ─────────────────────────────────────────────── */
+        .banner-slide {
+            width: 100%;
+            line-height: 0;
+        }
+
+        .banner-slide__link {
+            display: block;
+            width: 100%;
+        }
+
+        .banner-slide__img,
+        .banner-slide__link img {
+            width: 100%;
+            height: auto;
+            max-height: 500px; /* Constrain vertical height */
+            display: block;
+            object-fit: cover;
+            object-position: center; /* keep the focal point centred */
+        }
+
+        /* ── Navigation Prev / Next ──────────────────────────────────── */
+        .banner-swiper__prev,
+        .banner-swiper__next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            transition: background 0.2s, transform 0.15s;
+            color: #003087;
+        }
+
+        .banner-swiper__prev { left: 12px; }
+        .banner-swiper__next { right: 12px; }
+
+        .banner-swiper__prev:hover,
+        .banner-swiper__next:hover {
+            background: #fff;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .banner-swiper__prev.swiper-button-disabled,
+        .banner-swiper__next.swiper-button-disabled {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        /* ── External control bar (below slider) ───────────────────── */
+        .banner-controls {
+            position: relative;
+            background: #f0f0f0;
+            padding: 10px 60px 10px 12px; /* right padding = space for pp button */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+        }
+
+        /* Pagination pills — absolutely centred inside control bar */
+        .banner-swiper__pagination {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .banner-swiper__pagination .swiper-pagination-bullet {
+            width: 60px;
+            height: 5px;
+            border-radius: 3px;
+            background: #bebebe;
+            opacity: 1;
+            transition: background 0.3s, width 0.3s;
+            cursor: pointer;
+        }
+
+        .banner-swiper__pagination .swiper-pagination-bullet-active {
+            background: #003087;
+            width: 80px;
+        }
+
+        /* ── Play/Pause button (Pill shaped) ───────────────────────── */
+        .banner-swiper__play-pause {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            background: #003087;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background 0.2s;
+        }
+
+        .banner-swiper__play-pause:hover {
+            background: #001f5e;
+        }
+
+        /* ── Editor placeholder ──────────────────────────────────────── */
+        .banner-slide__editor-placeholder {
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border: 2px dashed #ccc;
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* ── Responsive ──────────────────────────────────────────────── */
+        @@media (max-width: 768px) {
+            .banner-swiper__prev,
+            .banner-swiper__next { width: 32px; height: 32px; }
+
+            .banner-controls { padding-right: 56px; }
+            .banner-swiper__pagination .swiper-pagination-bullet { width: 36px; }
+            .banner-swiper__pagination .swiper-pagination-bullet-active { width: 50px; }
+        }
+    </style>
+
+    <section class="banner-slider-section component @Model?.Styles @Model?.GridParameters" id="@Model?.Id">
+        <div class="swiper banner-swiper" id="@sliderId">
+
+            <div class="swiper-wrapper">
+                @foreach (var slide in slides)
+                {
+                    var imgSrc    = slide?.Fields?.Image?.Value?.Src ?? string.Empty;
+                    var imgAlt    = slide?.Fields?.Image?.Value?.Alt ?? string.Empty;
+                    var ctaHref   = slide?.Fields?.CTA?.Value?.Href ?? string.Empty;
+                    var ctaTarget = slide?.Fields?.CTA?.Value?.Target ?? "_self";
+                    var ctaText   = slide?.Fields?.CTA?.Value?.Text ?? string.Empty;
+
+                    <div class="swiper-slide banner-slide">
+                        @if (!string.IsNullOrWhiteSpace(imgSrc))
+                        {
+                            if (!string.IsNullOrWhiteSpace(ctaHref) && !isEditing)
+                            {
+                                <a href="@ctaHref"
+                                   target="@ctaTarget"
+                                   class="banner-slide__link"
+                                   title="@ctaText">
+                                    <img class="banner-slide__img" src="@imgSrc" alt="@imgAlt" />
+                                </a>
+                            }
+                            else
+                            {
+                                <img class="banner-slide__img" src="@imgSrc" alt="@imgAlt" />
+                            }
+                        }
+                        else if (isEditing)
+                        {
+                            <div class="banner-slide__editor-placeholder">
+                                <span>📷 Slide Image — not set</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div><!-- /.swiper-wrapper -->
+
+            <!-- Prev / Next arrows — inside swiper -->
+            <button class="banner-swiper__prev" id="@prevId" aria-label="Previous slide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button class="banner-swiper__next" id="@nextId" aria-label="Next slide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+
+        </div><!-- /.swiper -->
+
+        <!-- ── Control bar — OUTSIDE swiper, below the image ── -->
+        <div class="banner-controls">
+            <!-- Pagination bullets, flex-centred by parent justify-content:center -->
+            <div class="banner-swiper__pagination" id="@paginId"></div>
+
+            <!-- Play/Pause pill — absolute right -->
+            <button class="banner-swiper__play-pause" id="@ppId"
+                    aria-label="Pause autoplay" title="Pause autoplay">
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"
+                     width="13" height="13" aria-hidden="true">
+                    <rect x="5"  y="3" width="4" height="18" rx="1"/>
+                    <rect x="15" y="3" width="4" height="18" rx="1"/>
+                </svg>
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"
+                     width="13" height="13" aria-hidden="true" style="display:none;">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+        </div><!-- /.banner-controls -->
+
+    </section>
+
+
+    <!-- Swiper JS — MUST be before the init script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        (function () {
+            var swiper = new Swiper('#' + @Json.Serialize(sliderId), {
+                loop: true,
+                speed: 600,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                    waitForTransition: false
+                },
+                navigation: {
+                    prevEl: '#' + @Json.Serialize(prevId),
+                    nextEl: '#' + @Json.Serialize(nextId)
+                },
+                pagination: {
+                    el: '#' + @Json.Serialize(paginId),
+                    clickable: true,
+                    bulletClass: 'swiper-pagination-bullet',
+                    bulletActiveClass: 'swiper-pagination-bullet-active'
+                },
+                a11y: {
+                    prevSlideMessage: 'Previous slide',
+                    nextSlideMessage: 'Next slide'
+                }
+            });
+
+            /* ── Play / Pause ── */
+            var btn       = document.getElementById(@Json.Serialize(ppId));
+            var iconPause = btn.querySelector('.icon-pause');
+            var iconPlay  = btn.querySelector('.icon-play');
+            var playing   = true;
+
+            btn.addEventListener('click', function () {
+                if (playing) {
+                    swiper.autoplay.stop();
+                    iconPause.style.display = 'none';
+                    iconPlay.style.display  = 'block';
+                    btn.setAttribute('aria-label', 'Play autoplay');
+                } else {
+                    swiper.autoplay.start();
+                    iconPause.style.display = 'block';
+                    iconPlay.style.display  = 'none';
+                    btn.setAttribute('aria-label', 'Pause autoplay');
+                }
+                playing = !playing;
+el', 'Pause autoplay');
+                    btn.setAttribute('title', 'Pause autoplay');
+                }
+                isPlaying = !isPlaying;
+            });
+        })();
+    </script>
 }
