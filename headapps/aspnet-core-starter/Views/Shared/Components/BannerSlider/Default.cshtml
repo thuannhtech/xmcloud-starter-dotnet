@@ -49,6 +49,7 @@
             display: block;
             object-fit: cover;
             object-position: center; /* keep the focal point centred */
+            border-radius: 16px;
         }
 
         /* ── Navigation Prev / Next ──────────────────────────────────── */
@@ -89,50 +90,53 @@
 
         /* ── External control bar (below slider) ───────────────────── */
         .banner-controls {
-            position: relative;
-            background: #f0f0f0;
-            padding: 10px 60px 10px 12px; /* right padding = space for pp button */
+            background: transparent;
+            padding: 14px 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 44px;
         }
 
-        /* Pagination pills — absolutely centred inside control bar */
-        .banner-swiper__pagination {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
+        /* Inner group: bullets + play-pause sit side-by-side as a unit */
+        .banner-controls__inner {
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 24px;
+        }
+
+        /* Pagination pills — override Swiper inline styles */
+        .banner-swiper__pagination {
+            position: static !important;  /* override Swiper absolute */
+            bottom: auto !important;
+            width: auto !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 12px; /* khoảng cách giữa các vạch gạch */
         }
 
         .banner-swiper__pagination .swiper-pagination-bullet {
             width: 60px;
-            height: 5px;
-            border-radius: 3px;
-            background: #bebebe;
+            height: 4px;
+            border-radius: 4px; /* Bo góc gạch như hình */
+            background: transparent;
+            border: 1px solid #999;
             opacity: 1;
-            transition: background 0.3s, width 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
+            margin: 0 !important;
         }
 
         .banner-swiper__pagination .swiper-pagination-bullet-active {
             background: #003087;
-            width: 80px;
+            border-color: #003087;
         }
 
         /* ── Play/Pause button (Pill shaped) ───────────────────────── */
         .banner-swiper__play-pause {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 44px;
-            height: 24px;
-            border-radius: 12px;
+            width: 40px;
+            height: 20px;
+            border-radius: 10px;
             background: #003087;
             color: #fff;
             border: none;
@@ -193,6 +197,7 @@
                                    class="banner-slide__link"
                                    title="@ctaText">
                                     <img class="banner-slide__img" src="@imgSrc" alt="@imgAlt" />
+
                                 </a>
                             }
                             else
@@ -228,22 +233,25 @@
 
         <!-- ── Control bar — OUTSIDE swiper, below the image ── -->
         <div class="banner-controls">
-            <!-- Pagination bullets, flex-centred by parent justify-content:center -->
-            <div class="banner-swiper__pagination" id="@paginId"></div>
+            <!-- Inner group: pagination + play-pause always sit together -->
+            <div class="banner-controls__inner">
+                <!-- Pagination bullets -->
+                <div class="banner-swiper__pagination" id="@paginId"></div>
 
-            <!-- Play/Pause pill — absolute right -->
-            <button class="banner-swiper__play-pause" id="@ppId"
-                    aria-label="Pause autoplay" title="Pause autoplay">
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"
-                     width="13" height="13" aria-hidden="true">
-                    <rect x="5"  y="3" width="4" height="18" rx="1"/>
-                    <rect x="15" y="3" width="4" height="18" rx="1"/>
-                </svg>
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"
-                     width="13" height="13" aria-hidden="true" style="display:none;">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-            </button>
+                <!-- Play/Pause pill -->
+                <button class="banner-swiper__play-pause" id="@ppId"
+                        aria-label="Pause autoplay" title="Pause autoplay">
+                    <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"
+                         width="13" height="13" aria-hidden="true">
+                        <rect x="5"  y="3" width="4" height="18" rx="1"/>
+                        <rect x="15" y="3" width="4" height="18" rx="1"/>
+                    </svg>
+                    <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"
+                         width="13" height="13" aria-hidden="true" style="display:none;">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
         </div><!-- /.banner-controls -->
 
     </section>
@@ -257,7 +265,7 @@
                 loop: true,
                 speed: 600,
                 autoplay: {
-                    delay: 4000,
+                    delay: 5000,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
                     waitForTransition: false
@@ -280,28 +288,28 @@
 
             /* ── Play / Pause ── */
             var btn       = document.getElementById(@Json.Serialize(ppId));
-            var iconPause = btn.querySelector('.icon-pause');
-            var iconPlay  = btn.querySelector('.icon-play');
-            var playing   = true;
+            var iconPause = btn ? btn.querySelector('.icon-pause') : null;
+            var iconPlay  = btn ? btn.querySelector('.icon-play') : null;
+            var isPlaying = true;
 
-            btn.addEventListener('click', function () {
-                if (playing) {
-                    swiper.autoplay.stop();
-                    iconPause.style.display = 'none';
-                    iconPlay.style.display  = 'block';
-                    btn.setAttribute('aria-label', 'Play autoplay');
-                } else {
-                    swiper.autoplay.start();
-                    iconPause.style.display = 'block';
-                    iconPlay.style.display  = 'none';
-                    btn.setAttribute('aria-label', 'Pause autoplay');
-                }
-                playing = !playing;
-el', 'Pause autoplay');
-                    btn.setAttribute('title', 'Pause autoplay');
-                }
-                isPlaying = !isPlaying;
-            });
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    if (isPlaying) {
+                        swiper.autoplay.stop();
+                        if (iconPause) iconPause.style.display = 'none';
+                        if (iconPlay) iconPlay.style.display  = 'block';
+                        btn.setAttribute('aria-label', 'Play autoplay');
+                        btn.setAttribute('title', 'Play autoplay');
+                    } else {
+                        swiper.autoplay.start();
+                        if (iconPause) iconPause.style.display = 'block';
+                        if (iconPlay) iconPlay.style.display  = 'none';
+                        btn.setAttribute('aria-label', 'Pause autoplay');
+                        btn.setAttribute('title', 'Pause autoplay');
+                    }
+                    isPlaying = !isPlaying;
+                });
+            }
         })();
     </script>
 }
