@@ -1,10 +1,20 @@
 
+.blog-listing {
+	width: 100%;
+}
+
+.blog-listing .container {
+	width: 100%;
+}
+
 .blog-card {
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	border: none;
 	box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 	border-radius: 1rem;
 	overflow: hidden;
+
+	min-height: 370px;
 }
 
 	.blog-card:hover {
@@ -48,4 +58,11 @@
 .btn-readmore:hover {
 	padding-left: 1.5rem !important;
 	padding-right: 1.5rem !important;
+}
+
+@media only screen and (max-width: 992px) {
+	.blog-listing .row > * {
+		padding: 10px;
+		margin: 0;
+	}
 }

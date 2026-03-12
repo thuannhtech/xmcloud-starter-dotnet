@@ -18,7 +18,7 @@
             <div class="row g-4 justify-content-center">
                 @if (Model.Blogs != null)
                 {
-                    foreach (var blogItem in Model.Blogs)
+                    foreach (var blogItem in Model.PagedBlogs)
                     {
                         var detail = blogItem.ReadFields<BlogDetailModel>();
                         if (blogItem == null) continue;
@@ -57,6 +57,8 @@
                             </div>
                         </div>
                     }
+
+                    <partial name="~/Views/Shared/Pagination/_Pagination.cshtml" model="Model.Pager" />
                 }
             </div>
         </div>
