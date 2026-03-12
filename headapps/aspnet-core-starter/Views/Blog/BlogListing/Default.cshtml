@@ -1,0 +1,67 @@
+﻿@using Sitecore.AspNetCore.SDK.LayoutService.Client.Response.Model.Fields
+@using Sitecore.AspNetCore.SDK.RenderingEngine.Extensions
+@using Sitecore.AspNetCore.Starter.Models.Blog
+@model BlogListingModel
+
+<link rel="stylesheet" href="~/assets/css/components/blog-listing.css" asp-append-version="true" />
+
+<section class="blog-listing m-auto py-5">
+    <div class="container">
+
+        <div class="text-center mb-5 mx-auto" style="max-width: 800px;">
+            <h1 class="display-4 fw-bold">
+                <sc-text asp-for="@Model.Title"></sc-text>
+            </h1>
+        </div>
+
+        <div class="blog-grid-container mx-auto">
+            <div class="row g-4 justify-content-center">
+                @if (Model.Blogs != null)
+                {
+                    foreach (var blogItem in Model.PagedBlogs)
+                    {
+                        var detail = blogItem.ReadFields<BlogDetailModel>();
+                        if (blogItem == null) continue;
+
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card blog-card h-100 border-0">
+
+                                <div class="blog-thumbnail position-relative overflow-hidden">
+                                    @if (detail?.Thumbnail?.Value?.Src != null)
+                                    {
+                                        <a href="@blogItem.Url">
+                                            <img src="@detail?.Thumbnail?.Value.Src" class="card-img-top w-100 h-100" style="object-fit: cover;" alt="Thumbnail" />
+                                        </a>
+                                    }
+
+                                    <div class="blog-title-overlay">
+                                        <h5 class="m-0 fw-bold text-white">
+                                            <a href="@blogItem.Url">
+                                                <sc-text asp-for="@detail.Title" />
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+
+                                <div class="card-body d-flex flex-column p-4">
+                                    <div class="blog-excerpt card-text text-secondary mb-4">
+                                        @Html.Raw(detail?.ContentBody?.Value)
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <a href="@blogItem.Url" class="btn btn-outline-primary px-4 fw-bold btn-readmore rounded-pill">
+                                            Read More
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <partial name="~/Views/Shared/Pagination/_Pagination.cshtml" model="Model.Pager" />
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

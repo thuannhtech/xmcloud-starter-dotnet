@@ -1,5 +1,6 @@
 ﻿using Sitecore.AspNetCore.SDK.RenderingEngine.Configuration;
 using Sitecore.AspNetCore.SDK.RenderingEngine.Extensions;
+using Sitecore.AspNetCore.Starter.Components.Blog;
 using Sitecore.AspNetCore.Starter.Models.LinkList;
 using Sitecore.AspNetCore.Starter.Models.Navigation;
 using Sitecore.AspNetCore.Starter.Models.Title;
@@ -32,7 +33,10 @@ public static class ServiceCollectionExtensions
                               // ─────────────────────────────────────────────────────────
                               .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
                               .AddViewComponent(BannerSliderViewComponent.ViewComponentName);
+                              .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
+                              .AddViewComponent(BlogListingViewComponent.ViewComponentName)
+                              .AddViewComponent(BlogDetailViewComponent.ViewComponentName);
 
-        return renderingEngineOptions;
+		return renderingEngineOptions;
     }
 }

@@ -1,0 +1,39 @@
+﻿@if (Model.TotalPages > 1)
+{
+    <link rel="stylesheet" href="~/assets/css/components/pagination.css" asp-append-version="true" />
+
+    <nav aria-label="Blog pagination" class="pagination-container mt-5">
+        <ul class="pagination justify-content-center">
+
+            <!-- Previous -->
+            <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                <a class="page-link page-nav"
+                   aria-label="Previous page"
+                   href="@($"{Model.BaseUrl}?page={Model.CurrentPage - 1}")">
+                    Previous
+                </a>
+            </li>
+
+            <!-- Page numbers -->
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link page-number"
+                       href="@($"{Model.BaseUrl}?page={i}")">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <!-- Next -->
+            <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link page-nav"
+                   aria-label="Next page"
+                   href="@($"{Model.BaseUrl}?page={Model.CurrentPage + 1}")">
+                    Next
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+}
