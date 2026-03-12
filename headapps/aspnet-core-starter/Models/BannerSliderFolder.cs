@@ -6,5 +6,5 @@ namespace Sitecore.AspNetCore.Starter.Models;
 public class BannerSliderFolder : BaseModel
 {
     [SitecoreComponentField(Name = "items")]
-    public ContentListField<BannerSlider> BannerSliders { get; set; }
+    public ContentListField BannerSliders { get; set; }
 }
