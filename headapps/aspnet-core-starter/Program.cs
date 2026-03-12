@@ -44,8 +44,8 @@ builder.Services.AddSitecoreRenderingEngine(options =>
     options.AddStarterKitViews()
            .AddDefaultPartialView("_ComponentNotFound");
 })
-                .ForwardHeaders()
-                .WithSitecorePages(sitecoreSettings.EdgeContextId ?? string.Empty, options => { options.EditingSecret = sitecoreSettings.EditingSecret; });
+.ForwardHeaders()
+.WithSitecorePages(sitecoreSettings.EdgeContextId ?? string.Empty, options => { options.EditingSecret = sitecoreSettings.EditingSecret; });
 
 WebApplication app = builder.Build();
 

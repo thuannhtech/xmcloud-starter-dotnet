@@ -1,0 +1,47 @@
+.pagination-container {
+	padding: 10px 14px;
+	border-radius: 4px;
+	display: inline-block;
+}
+
+.pagination {
+	margin: 0;
+	gap: 6px;
+}
+
+.page-link {
+	border: none;
+	background: transparent;
+	color: #4a7bd6;
+	min-width: 34px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 3px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+/* Page number */
+.page-number:hover {
+	background: #e9f0ff;
+}
+
+/* Prev / Next */
+.page-nav {
+	font-size: 14px;
+}
+
+/* Active */
+.page-item.active .page-link {
+	background: #5b8de3;
+	color: #fff;
+}
+
+/* Disabled */
+.page-item.disabled .page-link {
+	color: #bdbdbd;
+	pointer-events: none;
+	background-color: unset;
+}

@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="ViewComponents\Blog\BlogDetailViewComponent.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GraphQL.Client" />
     <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" />
     <PackageReference Include="Sitecore.AspNetCore.SDK.ExperienceEditor" />
