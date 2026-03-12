@@ -14,6 +14,12 @@
             </h1>
         </div>
 
+        <partial name="~/Views/Shared/Components/SortDropdown/_Partial.cshtml"
+         model="new SortDropdownModel {
+             Options = Model.SortDropDownOptions,
+             SelectedSort = Model.SelectedSort
+         }" />
+
         <div class="blog-grid-container mx-auto">
             <div class="row g-4 justify-content-center">
                 @if (Model.Blogs != null)
@@ -58,7 +64,7 @@
                         </div>
                     }
 
-                    <partial name="~/Views/Shared/Pagination/_Pagination.cshtml" model="Model.Pager" />
+                    <partial name="~/Views/Shared/Components/Pagination/Default.cshtml" model="Model.Pager" />
                 }
             </div>
         </div>

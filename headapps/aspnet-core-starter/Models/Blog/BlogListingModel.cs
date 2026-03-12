@@ -12,8 +12,15 @@ namespace Sitecore.AspNetCore.Starter.Models.Blog
 		[SitecoreComponentField(Name = "items")]
 		public ContentListField? Blogs { get; set; } = new ContentListField();
 
+		[SitecoreComponentField(Name = "SortOptions")]
+		public ContentListField? SortOptions { get; set; }
+
 		public IEnumerable<ItemLinkField> PagedBlogs { get; set; } = Enumerable.Empty<ItemLinkField>();
 
+		public List<SortOptionItem> SortDropDownOptions { get; set; } = new List<SortOptionItem>();
+
 		public PagerModel Pager { get; set; } = new PagerModel();
+
+		public string? SelectedSort { get; set; }
 	}
 }
