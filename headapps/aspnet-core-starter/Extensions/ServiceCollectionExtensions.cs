@@ -21,19 +21,42 @@ public static class ServiceCollectionExtensions
                               .AddModelBoundView<LinkList>("LinkList")
                               .AddModelBoundView<Image>("Image")
                               .AddModelBoundView<PartialDesignDynamicPlaceholder>("PartialDesignDynamicPlaceholder")
-                              .AddModelBoundView<Navigation>("Navigation")
-                              // ── Home page components ──────────────────────────────────
-                              //.AddModelBoundView<BannerSlider>("BannerSlider")
-                              //.AddModelBoundView<List<Slider>>("Slider")
-                              .AddViewComponent(SliderViewComponent.ViewComponentName)
-                              //.AddModelBoundView<PromotionSection>("PromotionSection")
-                              //.AddModelBoundView<Footer>("Footer")
-                              //.AddModelBoundView<QuangBanner>("QuangBanner")
-                              // ─────────────────────────────────────────────────────────
-                              .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
-                              .AddViewComponent(BannerSliderViewComponent.ViewComponentName)
-							  .AddViewComponent(BlogListingViewComponent.ViewComponentName)
-							  .AddViewComponent(BlogDetailViewComponent.ViewComponentName);
+                              .AddModelBoundView<Navigation>("Navigation");
+                              
+        renderingEngineOptions.QuangLe();
+        renderingEngineOptions.TuVan();
+
+		return renderingEngineOptions;
+	}
+
+
+	private static RenderingEngineOptions QuangLe(this RenderingEngineOptions renderingEngineOptions)
+	{
+		renderingEngineOptions
+							  // ── Home page components ──────────────────────────────────
+							  //.AddModelBoundView<BannerSlider>("BannerSlider")
+							  //.AddModelBoundView<List<Slider>>("Slider")
+
+							  //.AddModelBoundView<PromotionSection>("PromotionSection")
+							  //.AddModelBoundView<Footer>("Footer")
+							  //.AddModelBoundView<QuangBanner>("QuangBanner")
+							  // ─────────────────────────────────────────────────────────
+							  .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
+							  .AddViewComponent(BannerSliderViewComponent.ViewComponentName)
+							  .AddViewComponent(SliderViewComponent.ViewComponentName)
+                              // Register rendering here
+							  ;
+
+		return renderingEngineOptions;
+	}
+
+
+	private static RenderingEngineOptions TuVan(this RenderingEngineOptions renderingEngineOptions)
+	{
+		renderingEngineOptions.AddViewComponent(BlogListingViewComponent.ViewComponentName)
+							  .AddViewComponent(BlogDetailViewComponent.ViewComponentName)
+							  // Register rendering here
+							  ;
 
 		return renderingEngineOptions;
 	}
