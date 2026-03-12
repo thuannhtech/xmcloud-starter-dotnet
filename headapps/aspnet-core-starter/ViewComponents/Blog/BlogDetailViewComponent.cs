@@ -17,6 +17,8 @@ namespace Sitecore.AspNetCore.Starter.Components.Blog
 		{
 			var model = await binder.Bind<BlogDetailModel>(ViewContext);
 
+			model ??= new BlogDetailModel();
+
 			return View("~/Views/Blog/BlogDetail/Default.cshtml", model);
 		}
 	}
