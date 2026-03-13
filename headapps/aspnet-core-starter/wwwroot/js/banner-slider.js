@@ -10,19 +10,15 @@
 (function () {
     'use strict';
 
-    // Kiểm tra xem có đang ở chế độ Edit của Sitecore không
-    var isEditingMode =
-        document.documentElement.classList.contains('sc-edit-mode') ||
-        window.location.href.indexOf('sc_mode=edit') > -1;
-
-    if (isEditingMode) return; // Dừng Swiper nếu đang edit
-
     document.querySelectorAll('.banner-swiper[data-slider-id]').forEach(function (el) {
+        // Skip Swiper init when rendered in Sitecore editing mode
+        if (el.dataset.editing === 'true') return;
+
         var sliderId = el.dataset.sliderId;
-        var prevId   = el.dataset.prevId;
-        var nextId   = el.dataset.nextId;
-        var paginId  = el.dataset.paginId;
-        var ppId     = el.dataset.ppId;
+        var prevId = el.dataset.prevId;
+        var nextId = el.dataset.nextId;
+        var paginId = el.dataset.paginId;
+        var ppId = el.dataset.ppId;
 
         var swiper = new Swiper('#' + sliderId, {
             loop: true,
@@ -39,7 +35,7 @@
             btn.addEventListener('click', function () {
                 if (isPlaying) { swiper.autoplay.stop(); } else { swiper.autoplay.start(); }
                 btn.querySelector('.icon-pause').style.display = isPlaying ? 'none' : 'block';
-                btn.querySelector('.icon-play').style.display  = isPlaying ? 'block' : 'none';
+                btn.querySelector('.icon-play').style.display = isPlaying ? 'block' : 'none';
                 isPlaying = !isPlaying;
             });
         }

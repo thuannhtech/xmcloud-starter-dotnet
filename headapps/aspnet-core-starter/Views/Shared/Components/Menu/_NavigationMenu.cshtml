@@ -1,0 +1,94 @@
+@using Sitecore.AspNetCore.Starter.Models
+@using System.Linq
+@using System.Collections.Generic
+@model Tuple<List<dynamic>, List<dynamic>, int, bool>
+
+@functions {
+    public List<dynamic> GetChildren(List<dynamic> all, string parentUrl)
+    {
+        var pUrl = parentUrl?.TrimEnd('/') ?? "";
+        var result = new List<dynamic>();
+
+        foreach (var x in all)
+        {
+            string u = ((string)x.Url)?.TrimEnd('/') ?? "";
+            
+            if (u.Length <= pUrl.Length) continue;
+            if (!u.StartsWith(pUrl + "/", System.StringComparison.OrdinalIgnoreCase)) continue;
+            
+            var remaining = u.Substring(pUrl.Length + 1);
+            if (remaining.IndexOf('/') == -1)
+            {
+                result.Add(x);
+            }
+        }
+        return result;
+    }
+}
+
+@{
+    var allItems = Model.Item1;
+    var currentNodes = Model.Item2;
+    var level = Model.Item3;
+    var isEditing = Model.Item4;
+
+    var listClass = $"menu-list level-{level}";
+}
+
+@if (currentNodes.Any() || (isEditing && level == 1))
+{
+    <ul class="@listClass">
+        @foreach (var item in currentNodes)
+        {
+            // Fields maps to strongly-typed Menu fields model due to generic `<Menu>` usage from User
+            Menu menu = item.Fields;
+
+            // if (!isEditing && menu?.ShowInMenu?.Value == false) { continue; }
+
+            string currentUrl = ((string)item.Url) ?? "";
+            var children = GetChildren(allItems, currentUrl);
+            bool hasChildren = children.Any();
+            string classNames = $"menu-item rel-level{level}{(hasChildren ? " has-children" : "")}".Trim();
+
+            var href   = menu?.Link?.Value?.Href ?? "#";
+            var target = menu?.Link?.Value?.Target ?? "_self";
+
+            // Folders may not have a populated Title field. Use Url-based fallback name.
+            string folderFallback = currentUrl.Split('/').LastOrDefault()?.Replace("-", " ") ?? "Folder";
+            var displayTitle = !string.IsNullOrWhiteSpace(menu?.Title?.Value) 
+                ? menu.Title.Value
+                : folderFallback;
+
+            <li class="@classNames">
+                <div class="menu-item__title">
+                    <a href="@href" target="@target">
+                        @displayTitle
+                    </a>
+                    
+                    @if (hasChildren)
+                    {
+                        <svg class="menu-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    }
+                </div>
+
+                @if (hasChildren)
+                {
+                    @await Html.PartialAsync(
+                        "~/Views/Shared/Components/Menu/_NavigationMenu.cshtml",
+                        new Tuple<List<dynamic>, List<dynamic>, int, bool>(allItems, children, level + 1, isEditing)
+                    )
+                }
+            </li>
+        }
+
+        @if (isEditing && !currentNodes.Any() && level == 1)
+        {
+            <li class="menu-item menu-item--empty">
+                No menu items. Add child items in Content Tree.
+            </li>
+        }
+    </ul>
+}
