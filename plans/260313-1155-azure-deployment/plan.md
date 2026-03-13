@@ -17,7 +17,7 @@ Thiết lập hệ thống tự động build và deploy dự án ASP.NET Core (
 | 01 | Setup GitHub Secrets | ✅ Complete | 100% |
 | 02 | Rendering Host Workflow | ✅ Complete | 100% |
 | 03 | Editing Host Workflow | ✅ Complete | 100% |
-| 04 | Testing & Verification | 🟡 In Progress | 25% |
+| 04 | Testing & Verification | 🟡 In Progress | 50% |
 
 ## Quick Commands
 - Start Phase 1: `/code phase-01`
