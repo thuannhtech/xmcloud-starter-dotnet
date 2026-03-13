@@ -1,0 +1,40 @@
+name: Deploy Rendering Host to Azure
+
+on:
+  push:
+    branches:
+      - dev-rendering-host
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: sai-rendering-host
+  WORKING_DIRECTORY: headapps/aspnet-core-starter
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.WORKING_DIRECTORY }} --configfile ./nuget.config
+
+      - name: Build
+        run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{ env.WORKING_DIRECTORY }}/publish --no-build
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_RENDERING }}
+          package: ${{ env.WORKING_DIRECTORY }}/publish
