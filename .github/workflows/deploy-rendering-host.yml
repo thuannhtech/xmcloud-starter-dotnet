@@ -35,6 +35,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'sai-rendering-host'
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_RENDERING }}
-          package: 'headapps/aspnet-core-starter/publish'
+          package: ${{ env.WORKING_DIRECTORY }}/publish
