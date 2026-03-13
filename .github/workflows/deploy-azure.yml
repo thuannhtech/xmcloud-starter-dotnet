@@ -1,0 +1,56 @@
+name: Deploy to Azure (Editing & Rendering)
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+env:
+  WORKING_DIRECTORY: headapps/aspnet-core-starter
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - app_name: sai-editing-host
+            publish_profile_secret: AZURE_WEBAPP_PUBLISH_PROFILE_EDITING
+            display_name: Editing Host
+          - app_name: sai-rendering-host
+            publish_profile_secret: AZURE_WEBAPP_PUBLISH_PROFILE_RENDERING
+            display_name: Rendering Host
+    
+    name: Deploy ${{ matrix.display_name }}
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.WORKING_DIRECTORY }} --configfile ./nuget.config
+
+      - name: Build
+        run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{ env.WORKING_DIRECTORY }}/publish/${{ matrix.app_name }} --no-build
+
+      - name: Remove local appsettings
+        run: |
+          $publishPath = "${{ env.WORKING_DIRECTORY }}/publish/${{ matrix.app_name }}"
+          Remove-Item -Path "$publishPath/appsettings.json" -Force -ErrorAction SilentlyContinue
+          Remove-Item -Path "$publishPath/appsettings.Development.json" -Force -ErrorAction SilentlyContinue
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ matrix.app_name }}
+          publish-profile: ${{ secrets[matrix.publish_profile_secret] }}
+          package: ${{ env.WORKING_DIRECTORY }}/publish/${{ matrix.app_name }}
