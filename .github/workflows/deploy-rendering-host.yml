@@ -32,6 +32,11 @@ jobs:
       - name: Publish
         run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{ env.WORKING_DIRECTORY }}/publish --no-build
 
+      - name: Remove local appsettings
+        run: |
+          Remove-Item -Path "${{ env.WORKING_DIRECTORY }}/publish/appsettings.json" -Force -ErrorAction SilentlyContinue
+          Remove-Item -Path "${{ env.WORKING_DIRECTORY }}/publish/appsettings.Development.json" -Force -ErrorAction SilentlyContinue
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
