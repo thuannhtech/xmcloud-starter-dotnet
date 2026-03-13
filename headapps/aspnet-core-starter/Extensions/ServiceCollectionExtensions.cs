@@ -1,4 +1,4 @@
-﻿using Sitecore.AspNetCore.SDK.RenderingEngine.Configuration;
+using Sitecore.AspNetCore.SDK.RenderingEngine.Configuration;
 using Sitecore.AspNetCore.Starter.Components.Blog;
 using Sitecore.AspNetCore.Starter.Models.LinkList;
 using Sitecore.AspNetCore.Starter.Models.Navigation;
@@ -33,21 +33,21 @@ public static class ServiceCollectionExtensions
 	private static RenderingEngineOptions QuangLe(this RenderingEngineOptions renderingEngineOptions)
 	{
 		renderingEngineOptions
-							  // ── Home page components ──────────────────────────────────
-							  //.AddModelBoundView<BannerSlider>("BannerSlider")
-							  //.AddModelBoundView<List<Slider>>("Slider")
+		// ── Home page components ──────────────────────────────────
+		//.AddModelBoundView<BannerSlider>("BannerSlider")
+		//.AddModelBoundView<List<Slider>>("Slider")
 
-							  //.AddModelBoundView<PromotionSection>("PromotionSection")
-							  //.AddModelBoundView<Footer>("Footer")
-							  //.AddModelBoundView<QuangBanner>("QuangBanner")
-							  // ─────────────────────────────────────────────────────────
-							  .AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
-							  .AddViewComponent(BannerSliderViewComponent.ViewComponentName)
-							  .AddViewComponent(SliderViewComponent.ViewComponentName)
-                              // Register rendering here
-							  ;
+		//.AddModelBoundView<PromotionSection>("PromotionSection")
+		//.AddModelBoundView<Footer>("Footer")
+		//.AddModelBoundView<QuangBanner>("QuangBanner")
+		// ─────────────────────────────────────────────────────────
+		.AddViewComponent(MenuHeaderBarViewComponent.ViewComponentName)
+		.AddViewComponent(BannerSliderViewComponent.ViewComponentName)
+        .AddViewComponent(MenuViewComponent.ViewComponentName)
+        // Register rendering here
+        ;
 
-		return renderingEngineOptions;
+        return renderingEngineOptions;
 	}
 
 
