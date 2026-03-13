@@ -11,20 +11,9 @@ env:
   DOTNET_VERSION: '8.0.x'
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Build & Publish
     runs-on: windows-latest
-    strategy:
-      matrix:
-        include:
-          - app_name: sai-editing-host
-            publish_profile_secret: AZURE_WEBAPP_PUBLISH_PROFILE_EDITING
-            display_name: Editing Host
-          - app_name: sai-rendering-host
-            publish_profile_secret: AZURE_WEBAPP_PUBLISH_PROFILE_RENDERING
-            display_name: Rendering Host
-    
-    name: Deploy ${{ matrix.display_name }}
-    
     steps:
       - uses: actions/checkout@v4
 
@@ -40,17 +29,45 @@ jobs:
         run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{ env.WORKING_DIRECTORY }}/publish/${{ matrix.app_name }} --no-build
+        run: dotnet publish ${{ env.WORKING_DIRECTORY }} -c Release -o ${{ env.WORKING_DIRECTORY }}/publish --no-build
 
       - name: Remove local appsettings
         run: |
-          $publishPath = "${{ env.WORKING_DIRECTORY }}/publish/${{ matrix.app_name }}"
+          $publishPath = "${{ env.WORKING_DIRECTORY }}/publish"
           Remove-Item -Path "$publishPath/appsettings.json" -Force -ErrorAction SilentlyContinue
           Remove-Item -Path "$publishPath/appsettings.Development.json" -Force -ErrorAction SilentlyContinue
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapp-package
+          path: ${{ env.WORKING_DIRECTORY }}/publish
+          retention-days: 1
+
+  deploy:
+    name: Deploy ${{ matrix.display_name }}
+    needs: build
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - app_name: sai-editing-host
+            publish_profile_secret: AZURE_WEBAPP_PUBLISH_PROFILE_EDITING
+            display_name: Editing Host
+          - app_name: sai-rendering-host
+            publish_profile_secret: AZURE_WEBAPP_PUBLISH_PROFILE_RENDERING
+            display_name: Rendering Host
+    
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webapp-package
+          path: package
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ matrix.app_name }}
           publish-profile: ${{ secrets[matrix.publish_profile_secret] }}
-          package: ${{ env.WORKING_DIRECTORY }}/publish/${{ matrix.app_name }}
+          package: package
