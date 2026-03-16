@@ -28,11 +28,28 @@
 }
 
 /* ── Style riêng cho chế độ Edit ── */
+.banner-swiper.sc-edit-mode,
+.sc-edit-mode .banner-swiper {
+    overflow: visible !important;
+}
+
+.swiper-wrapper.sc-edit-mode,
 .sc-edit-mode .swiper-wrapper {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
+    display: block !important;
     transform: none !important;
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+.swiper-wrapper.sc-edit-mode .swiper-slide,
+.sc-edit-mode .swiper-slide {
+    display: block !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    visibility: visible !important;
+    position: relative !important;
+    height: auto !important;
+    margin-bottom: 40px !important;
 }
 
 .banner-slide__edit-wrap {
@@ -67,14 +84,72 @@
     display: none !important;
 }
 
-.banner-controls__inner { display: inline-flex; align-items: center; gap: 24px; }
+.banner-controls__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+}
 
-.banner-swiper__pagination { position: static !important; width: auto !important; display: inline-flex !important; gap: 12px; }
-.banner-swiper__pagination .swiper-pagination-bullet { width: 60px; height: 4px; border-radius: 4px; background: transparent; border: 1px solid #999; opacity: 1; transition: all 0.3s; cursor: pointer; }
-.banner-swiper__pagination .swiper-pagination-bullet-active { background: #003087; border-color: #003087; }
+.banner-swiper__pagination {
+    position: static !important;
+    width: auto !important;
+    display: inline-flex !important;
+    gap: 12px;
+}
 
-.banner-swiper__play-pause { width: 40px; height: 20px; border-radius: 10px; background: #003087; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.banner-swiper__pagination .swiper-pagination-bullet {
+    width: 60px;
+    height: 4px;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid #999;
+    opacity: 1;
+    transition: all 0.3s;
+    cursor: pointer;
+}
 
-.banner-swiper__prev, .banner-swiper__next { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.85); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.18); color: #003087; }
-.banner-swiper__prev { left: 12px; }
-.banner-swiper__next { right: 12px; }
+.banner-swiper__pagination .swiper-pagination-bullet-active {
+    background: #003087;
+    border-color: #003087;
+}
+
+.banner-swiper__play-pause {
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    background: #003087;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.banner-swiper__prev,
+.banner-swiper__next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    color: #003087;
+}
+
+.banner-swiper__prev {
+    left: 12px;
+}
+
+.banner-swiper__next {
+    right: 12px;
+}
