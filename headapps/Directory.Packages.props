@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageVersion Include="GraphQL.Client" Version="6.1.0" />
     <PackageVersion Include="GraphQL.Client.Serializer.SystemTextJson" Version="6.1.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Sitecore.AspNetCore.SDK.GraphQL" Version="$(AspNetCoreSdkVersion)" />
     <PackageVersion Include="Sitecore.AspNetCore.SDK.LayoutService.Client" Version="$(AspNetCoreSdkVersion)" />
     <PackageVersion Include="Sitecore.AspNetCore.SDK.Pages" Version="$(AspNetCoreSdkVersion)" />

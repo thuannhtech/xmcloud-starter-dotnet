@@ -1,3 +1,5 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
 @model Sitecore.AspNetCore.Starter.Models.BannerSliderFolder
 
 @{
@@ -14,13 +16,13 @@
 {
     <section class="banner-slider-section component @Model?.Styles @Model?.GridParameters" id="@Model?.Id">
         <div class="swiper banner-swiper"
-             id="@sliderId"
-             data-slider-id="@sliderId"
-             data-prev-id="@prevId"
-             data-next-id="@nextId"
-             data-pagin-id="@paginId"
-             data-pp-id="@ppId"
-             data-editing="@isEditing.ToString().ToLower()">
+        id="@sliderId"
+        data-slider-id="@sliderId"
+        data-prev-id="@prevId"
+        data-next-id="@nextId"
+        data-pagin-id="@paginId"
+        data-pp-id="@ppId"
+        data-editing="@isEditing.ToString().ToLower()">
 
             <div class="swiper-wrapper">
                 @if (slides != null)
@@ -32,10 +34,68 @@
                         var ctaHref = bannerSlider.CTA?.Value?.Href;
 
                         @* Skip slides that have no image *@
-                        if (string.IsNullOrWhiteSpace(imgSrc)) { continue; }
+                        //if (string.IsNullOrWhiteSpace(imgSrc)) { continue; }
+                        // 1. Cấu hình Serializer để tự động chuyển sang camelCase (ví dụ: ItemId -> itemId)
+                        var settings = new JsonSerializerSettings
+                        {
+                            ContractResolver = new CamelCasePropertyNamesContractResolver()
+                        };
 
-                        <div class="swiper-slide banner-slide">
-                            @if (!string.IsNullOrWhiteSpace(ctaHref))
+                        if (bannerSlider?.Image?.MetaData != null)
+                        {
+                            // 2. Serialize cục MetaData của Field sang JSON string
+                            var json = JsonConvert.SerializeObject(bannerSlider?.Image?.MetaData, settings);
+
+                            // 3. Deserialize ngược lại vào Dictionary để can thiệp đổi tên Key
+                            var obj = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+
+                            // 4. Xử lý logic đổi tên key "DataSource" thành "datasource" và các key khác
+                            var modified = obj.ToDictionary(
+                            k =>
+                            {
+                                if (k.Key.Equals("DataSource", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return "datasource";
+                                }
+                                // Đảm bảo chữ cái đầu luôn viết thường (camelCase)
+                                return char.ToLowerInvariant(k.Key[0]) + k.Key.Substring(1);
+                            },
+                            v => v.Value
+                            );
+
+                            // 5. Serialize lại cục đã mod xong để nhét vào HTML
+                            var metadata = JsonConvert.SerializeObject(modified);
+
+                            <div class="swiper-slide banner-slide">
+                                @if (isEditing)
+                                {
+                                    <code type="text/sitecore" chrometype="field" kind="open" class="scpm">
+                                        @Html.Raw(metadata)
+                                    </code>
+                                     <a sc-link="@bannerSlider.CTA" class="banner-slide__link">
+                                        <sc-img asp-for="@bannerSlider.Image" class="banner-slide__img" />
+                                     </a>
+                                    
+
+                                    @* <img sc-image="@bannerSlider.Image.Value" class="banner-slide__img" /> *@
+
+                                    <code type="text/sitecore" chrometype="field" kind="close" class="scpm"></code>
+                                }
+                                else
+                                {
+                                    @* Khi ở mode view bình thường *@
+                                    if (bannerSlider.CTA?.Value?.Href != null)
+                                    {
+                                        <a sc-link="@bannerSlider.CTA" class="banner-slide__link">
+                                            <img sc-image="@bannerSlider.Image" class="banner-slide__img" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <img sc-image="@bannerSlider.Image" class="banner-slide__img" />
+                                    }
+                                }
+                                @* @if (!string.IsNullOrWhiteSpace(ctaHref))
                             {
                                 <a href="@ctaHref" target="@bannerSlider.CTA!.Value.Target" class="banner-slide__link">
                                     <img class="banner-slide__img" src="@imgSrc" alt="@bannerSlider.Image!.Value.Alt" />
@@ -44,8 +104,11 @@
                             else
                             {
                                 <img class="banner-slide__img" src="@imgSrc" alt="@bannerSlider.Image!.Value.Alt" />
-                            }
-                        </div>
+                            } *@
+                            </div>
+                        }
+                        
+                        
                     }
                 }
 
